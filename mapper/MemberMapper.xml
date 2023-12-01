@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.noesis.mapper.MemberMapper">
+    <insert id="insert">
+        INSERT INTO tbl_member (userId, userName, userPw, location, gender) VALUES ( #{userId}, #{userName}, #{userPw} ,#{location}, #{gender})
+    </insert>
+
+    <delete id="delete">
+        delete from tbl_member where userId = #{userId}
+    </delete>
+    
+    <select id="selectMemberByUserId" resultType="com.noesis.domain.MemberVO">
+    	select * from tbl_member where userId=#{userId}
+    </select>
+    
+    <select id="getMemberList" resultType="com.noesis.domain.MemberVO">
+    	select * from tbl_member
+    </select>
+    
+    <select id="userInfo" resultType="com.noesis.domain.MemberVO">
+    	select * from TBL_MEMBER where USERID = #{userId}
+    </select>
+    
+    <select id="getRentalList" resultType="String">
+    	select bookName from TBL_BOOK where USERID = #{userId}
+    </select>
+    
+    <update id="modMyInfo">
+    	update TBL_MEMBER set USERNAME = #{userName}, USERPW = #{userPw}, LOCATION = #{location} where USERID = #{userId}
+    </update>
+    
+    <select id="findByUserName" resultType="String">
+    	select USERID from TBL_MEMBER where USERNAME=#{userName}
+    </select>
+    
+    <update id="modUserPw">
+    	update TBL_MEMBER set USERPW = #{userPw} where USERID = #{userId}
+    </update>
+    
+    <insert id="sendMSG">
+    	INSERT INTO TBL_MSG (RECEIVER, SENDER, CONTENT) VALUES ( #{receiver}, #{sender}, #{content})
+    </insert>
+    <select id="readMessage" resultType="com.noesis.domain.MessageVO">
+    	select * from TBL_MSG where RECEIVER = #{userId}
+    </select>
+    <delete id="delMSG">
+    	delete from TBL_MSG where MNO = #{mno}
+    </delete>
+</mapper>
+

@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noesis.mapper.BoardMapper">
+	<!-- ////////////////////Board1//////////////////// -->
+
+	<insert id="insert">
+		INSERT INTO TBL_BOARD (title, content, writer, subject) VALUES (
+		#{title}, #{content}, #{writer}, #{subject})
+		<selectKey keyProperty="bno" resultType="long" order="AFTER">
+			select TBL_BOARD_seq.currval as bno from dual
+		</selectKey>
+	</insert>
+
+	<select id="getList" resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select /*+INDEX_DESC(TBL_BOARD TBL_BOARD_PK)*/
+    		rownum rn, TBL_BOARD.* from TBL_BOARD]]>
+		<trim prefix="WHERE" suffixOverrides="AND">
+			<include refid="searchByDate"></include>
+			<include refid="searchByType"></include>
+		</trim>
+	</select>
+
+	<select id="getListWithPaging"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_BOARD TBL_BOARD_PK)*/
+    		rownum rn, TBL_BOARD.* from TBL_BOARD where]]>
+		<include refid="searchByDate"></include>
+		<include refid="searchByType"></include>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+
+	<select id="getTotalCount" resultType="int">
+		select count(*) from TBL_BOARD
+		<if test="typeArr!=null and typeArr.length!=0">
+			<trim prefix="WHERE" suffixOverrides="AND">
+				<include refid="searchByDate"></include>
+				<include refid="searchByType"></include>
+			</trim>
+		</if>
+	</select>
+
+	<delete id="deleteArticle">
+		delete from TBL_BOARD where bno = #{bno}
+	</delete>
+
+	<select id="read" resultType="com.noesis.domain.BoardVO">
+		select * from tbl_board where bno =
+		#{bno}
+	</select>
+
+	<update id="updateArticle">
+		update TBL_BOARD set title=#{title},
+		content=#{content}, subject=#{subject}
+		where bno=#{bno}
+	</update>
+
+	<!-- ////////////////////Board2//////////////////// -->
+
+	<insert id="insert2">
+		INSERT INTO TBL_BOARD2 (title, content, writer, boardName) VALUES (
+		#{title}, #{content}, #{writer}, #{boardName})
+		<selectKey keyProperty="bno" resultType="long" order="AFTER">
+			select
+			TBL_BOARD2_seq.currval as bno from dual
+		</selectKey>
+	</insert>
+
+	<select id="getList2" resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select /*+INDEX_DESC(TBL_BOARD2 TBL_BOARD2_PK)*/
+    		rownum rn, TBL_BOARD2.* from tbl_board2]]>
+	</select>
+
+	<select id="getListWithpPaging2"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_BOARD2 TBL_BOARD2_PK)*/
+    		rownum rn, TBL_BOARD2.* from TBL_BOARD2 where]]>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+
+	<select id="getTotalCount2" resultType="int">
+		select count(*) from
+		TBL_BOARD2
+	</select>
+
+	<delete id="deleteArticle2">
+		delete from TBL_BOARD2 where bno = #{bno}
+	</delete>
+
+	<select id="read2" resultType="com.noesis.domain.BoardVO">
+		select * from tbl_board2 where bno
+		= #{bno}
+	</select>
+
+	<update id="updateArticle2">
+		update TBL_BOARD2 set title=#{title},
+		content=#{content} where bno=#{bno}
+	</update>
+
+	<!-- ////////////////////Board3//////////////////// -->
+
+	<insert id="insert3">
+		INSERT INTO TBL_BOARD3 (title, content, writer, boardName) VALUES (
+		#{title}, #{content}, #{writer}, #{boardName})
+		<selectKey keyProperty="bno" resultType="long" order="AFTER">
+			select
+			TBL_BOARD3_seq.currval as bno from dual
+		</selectKey>
+	</insert>
+
+	<select id="getList3" resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select /*+INDEX_DESC(TBL_BOARD3 TBL_BOARD3_PK)*/
+    		rownum rn, TBL_BOARD3.* from tbl_board3]]>
+	</select>
+
+	<select id="getListWithpPaging3"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_BOARD3 TBL_BOARD3_PK)*/
+    		rownum rn, TBL_BOARD3.* from TBL_BOARD3 where]]>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+
+	<select id="getTotalCount3" resultType="int">
+		select count(*) from
+		TBL_BOARD3
+	</select>
+
+	<delete id="deleteArticle3">
+		delete from TBL_BOARD3 where bno = #{bno}
+	</delete>
+
+	<select id="read3" resultType="com.noesis.domain.BoardVO">
+		select * from tbl_board3 where bno
+		= #{bno}
+	</select>
+
+	<update id="updateArticle3">
+		update TBL_BOARD3 set title=#{title},
+		content=#{content} where bno=#{bno}
+	</update>
+
+	<!-- ////////////////////AdminBoard1//////////////////// -->
+
+	<insert id="adminArticleInsert">
+		INSERT INTO TBL_ADMIN_BOARD (title, content, writer) VALUES (
+		#{title}, #{content}, #{writer})
+		<selectKey keyProperty="bno" resultType="long" order="AFTER">
+			select
+			TBL_ADMIN_BOARD_seq.currval as bno from dual
+		</selectKey>
+	</insert>
+
+	<select id="getAdminAritlceList"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select /*+INDEX_DESC(TBL_ADMIN_BOARD TBL_ADMIN_BOARD_PK)*/
+    		rownum rn, TBL_ADMIN_BOARD.* from TBL_ADMIN_BOARD]]>
+	</select>
+
+	<select id="getListWithpPaging4"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_ADMIN_BOARD TBL_ADMIN_BOARD_PK)*/
+    		rownum rn, TBL_ADMIN_BOARD.* from TBL_ADMIN_BOARD where]]>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+
+	<select id="getTotalCount4" resultType="int">
+		select count(*) from
+		TBL_ADMIN_BOARD
+	</select>
+
+	<delete id="deleteAdminArticle">
+		delete from TBL_ADMIN_BOARD where bno = #{bno}
+	</delete>
+
+	<select id="readAdmin" resultType="com.noesis.domain.BoardVO">
+		select * from TBL_ADMIN_BOARD
+		where bno = #{bno}
+	</select>
+
+	<update id="updateAdminArticle">
+		update TBL_ADMIN_BOARD set title=#{title},
+		content=#{content} where
+		bno=#{bno}
+	</update>
+
+	<!-- ////////////////////AdminBoard2//////////////////// -->
+
+	<insert id="adminArticleInsert2">
+		INSERT INTO TBL_ADMIN_BOARD2 (title, content, writer) VALUES (
+		#{title}, #{content}, #{writer})
+		<selectKey keyProperty="bno" resultType="long" order="AFTER">
+			select
+			TBL_ADMIN_BOARD2_seq.currval as bno from dual
+		</selectKey>
+	</insert>
+
+	<select id="getAdminAritlceList2"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select /*+INDEX_DESC(TBL_ADMIN_BOARD2 TBL_ADMIN_BOARD2_PK)*/
+    		rownum rn, TBL_ADMIN_BOARD2.* from TBL_ADMIN_BOARD2]]>
+	</select>
+
+	<select id="getListWithpPaging5"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_ADMIN_BOARD2 TBL_ADMIN_BOARD2_PK)*/
+    		rownum rn, TBL_ADMIN_BOARD2.* from TBL_ADMIN_BOARD2 where]]>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+
+	<select id="getTotalCount5" resultType="int">
+		select count(*) from
+		TBL_ADMIN_BOARD
+	</select>
+
+	<delete id="deleteAdminArticle2">
+		delete from TBL_ADMIN_BOARD2 where bno = #{bno}
+	</delete>
+
+	<select id="readAdmin2" resultType="com.noesis.domain.BoardVO">
+		select * from
+		TBL_ADMIN_BOARD2 where bno = #{bno}
+	</select>
+
+	<update id="updateAdminArticle2">
+		update TBL_ADMIN_BOARD2 set title=#{title},
+		content=#{content} where
+		bno=#{bno}
+	</update>
+
+	<!-- ////////////////////AdminBoard3//////////////////// -->
+
+	<insert id="adminArticleInsert3">
+		INSERT INTO TBL_ADMIN_BOARD3 (title, content, writer) VALUES (
+		#{title}, #{content}, #{writer})
+		<selectKey keyProperty="bno" resultType="long" order="AFTER">
+			select
+			TBL_ADMIN_BOARD3_seq.currval as bno from dual
+		</selectKey>
+	</insert>
+
+	<select id="getAdminAritlceList3"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select /*+INDEX_DESC(TBL_ADMIN_BOARD3 TBL_ADMIN_BOARD3_PK)*/
+    		rownum rn, TBL_ADMIN_BOARD3.* from TBL_ADMIN_BOARD3]]>
+	</select>
+
+	<select id="getListWithpPaging6"
+		resultType="com.noesis.domain.BoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_ADMIN_BOARD3 TBL_ADMIN_BOARD3_PK)*/
+    		rownum rn, TBL_ADMIN_BOARD3.* from TBL_ADMIN_BOARD3 where]]>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+
+	<select id="getTotalCount6" resultType="int">
+		select count(*) from
+		TBL_ADMIN_BOARD
+	</select>
+
+	<delete id="deleteAdminArticle3">
+		delete from TBL_ADMIN_BOARD3 where bno = #{bno}
+	</delete>
+
+	<select id="readAdmin3" resultType="com.noesis.domain.BoardVO">
+		select * from
+		TBL_ADMIN_BOARD3 where bno = #{bno}
+	</select>
+
+	<update id="updateAdminArticle3">
+		update TBL_ADMIN_BOARD3 set title=#{title},
+		content=#{content} where
+		bno=#{bno}
+	</update>
+
+	<sql id="searchByDate">
+		<trim prefix="(" suffix=") AND ">
+			<choose>
+				<when test="dateType == 'M'.toString()">
+					UPDATEDATE >= ADD_MONTHS(SYSDATE, -1)
+				</when>
+				<when test="dateType == 'D'.toString()">
+					UPDATEDATE >= SYSDATE-1
+				</when>
+			</choose>
+		</trim>
+	</sql>
+
+	<sql id="searchByType">
+		<if test="typeArr != null">
+			<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+				<foreach item='type' collection="typeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString()">
+								title like '%'||#{keyword}||'%'
+							</when>
+							<when test="type == 'C'.toString()">
+								content like '%'||#{keyword}||'%'
+							</when>
+							<when test="type == 'W'.toString()">
+								writer like '%'||#{keyword}||'%'
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>
+

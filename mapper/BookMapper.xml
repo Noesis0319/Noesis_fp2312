@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noesis.mapper.BookMapper">
+	<select id="searchBook" resultType="com.noesis.domain.BookVO">
+		select * from tbl_book where BOOKNAME LIKE '%' || #{searchBook} || '%'
+	</select>
+	<update id="rental">
+		update TBL_BOOK set rental = 'TRUE', USERID = #{userId} where bookName = #{bookName}
+	</update>
+	<update id="returnBook">
+		update TBL_BOOK set rental = 'FALSE', USERID = '' where bookName = #{bookName}
+	</update>
+	<insert id="bookReservation">
+		insert into TBL_BOOK_RESERVATION (BOOKNAME, USERID) VALUES (#{bookName}, #{userId})
+	</insert>
+	
+	<update id="bookReserve">
+		update TBL_BOOK set RESERVATION = 'TRUE' where bookName = #{bookName}
+	</update>
+</mapper>
