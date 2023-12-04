@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.noesis.domain.BookCriteria;
 import com.noesis.domain.BookVO;
 
 public interface BookMapper {
 
-	public List<BookVO> searchBook(String searchBook);
+	public List<BookVO> searchBook(BookCriteria bookCri);
+	
+	public BookVO getBook(BookVO bookVO);
 	
 	public void rental(@Param("bookName")String bookName, @Param("userId")String userId);
 	

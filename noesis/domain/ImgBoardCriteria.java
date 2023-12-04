@@ -7,19 +7,19 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Criteria {
-	private static final int app = 10;
+public class ImgBoardCriteria {
+	private static final int app = 15;
 	private int pageNum;
 	private int amount;
 	private String type;
 	private String keyword;
 	private String dateType;
 	
-	public Criteria() {
+	public ImgBoardCriteria() {
 		this(1, app);
 	}
 	
-	public Criteria(int pageNum, int amount) {
+	public ImgBoardCriteria(int pageNum, int amount) {
 		this.pageNum = pageNum;
 		this.amount = amount;
 	}

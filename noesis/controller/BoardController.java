@@ -316,7 +316,7 @@ public class BoardController {
 		return new ResponseEntity<>(jObj.toString(), HttpStatus.OK);
 	}
 	
-//	===== function =====
+//	==========
 	
 	private void deleteFiles(List<BoardAttachVO> attachList) {
 		

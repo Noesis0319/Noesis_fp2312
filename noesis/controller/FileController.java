@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.noesis.domain.AttachFileDTO;
+import com.noesis.domain.ImgBoardDTO;
 
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -94,9 +95,49 @@ public class FileController {
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/uploadFileImageBoard", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ImgBoardDTO> uploadFileImageBoard(MultipartFile uploadFile){
+		String uploadFolder = "C:\\upload\\imageBoard";
+		String uploadFolderPath = getFolder();
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+		if(uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		ImgBoardDTO imgBoardDTO = new ImgBoardDTO();
+		String uploadFilename = uploadFile.getOriginalFilename();
+		uploadFilename = uploadFilename.substring(uploadFilename.lastIndexOf("\\") + 1);
+		imgBoardDTO.setFilename(uploadFilename);
+		UUID uuid = UUID.randomUUID();
+		uploadFilename = uuid.toString() + "_" + uploadFilename;
+		try {
+			File saveFile = new File(uploadPath, uploadFilename);
+			uploadFile.transferTo(saveFile);
+			imgBoardDTO.setUuid(uuid.toString());
+			imgBoardDTO.setUploadpath(uploadFolderPath);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		return new ResponseEntity<>(imgBoardDTO, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/display", produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> getFile(@RequestParam("filename") String filename){
 		File file = new File("c:\\upload\\" + filename);
+		ResponseEntity<byte[]> result = null;
+		try {
+			HttpHeaders header = new HttpHeaders();
+			header.add("Content-Type", Files.probeContentType(file.toPath()));
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@GetMapping(value = "/showImg", produces = MediaType.IMAGE_JPEG_VALUE)
+	public ResponseEntity<byte[]> showImg(@RequestParam("filename") String filename){
+		File file = new File("c:\\upload\\imageBoard\\" + filename);
 		ResponseEntity<byte[]> result = null;
 		try {
 			HttpHeaders header = new HttpHeaders();
