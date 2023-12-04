@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noesis.mapper.ImgBoardMapper">
+	<insert id="register">
+		INSERT INTO TBL_IMG_BOARD (title, content, writer, uuid, uploadpath, filename, bookname, authors) VALUES (
+		#{imgBoardVO.title}, #{imgBoardVO.content}, #{imgBoardVO.writer}, #{imgBoardVO.uuid},#{imgBoardVO.uploadpath}, #{imgBoardVO.filename}
+		, #{imgBoardVO.bookName}, #{imgBoardVO.authors})
+	</insert>
+	
+	<select id="getList" resultType="com.noesis.domain.ImgBoardVO">
+	 	select * from TBL_IMG_BOARD
+	</select>
+	
+	<select id="getListWithPaging"
+		resultType="com.noesis.domain.ImgBoardVO">
+    	<![CDATA[select * from(select /*+INDEX_DESC(TBL_IMG_BOARD TBL_IMG_BOARD_PK)*/
+    		rownum rn, TBL_IMG_BOARD.* from TBL_IMG_BOARD where]]>
+		<include refid="searchByDate"></include>
+		<include refid="searchByType"></include>
+    		<![CDATA[ rownum <= #{pageNum} * #{amount}
+    		)
+    		where rn > (#{pageNum} -1 ) * #{amount}]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from TBL_IMG_BOARD
+		<if test="typeArr!=null and typeArr.length!=0">
+			<trim prefix="WHERE" suffixOverrides="AND">
+				<include refid="searchByDate"></include>
+				<include refid="searchByType"></include>
+			</trim>
+		</if>
+	</select>
+	
+	<select id="read" resultType="com.noesis.domain.ImgBoardVO">
+		select * from TBL_IMG_BOARD where BNO = #{bno}
+	</select>
+	
+	<sql id="searchByDate">
+		<trim prefix="(" suffix=") AND ">
+			<choose>
+				<when test="dateType == 'M'.toString()">
+					UPDATEDATE >= ADD_MONTHS(SYSDATE, -1)
+				</when>
+				<when test="dateType == 'D'.toString()">
+					UPDATEDATE >= SYSDATE-1
+				</when>
+			</choose>
+		</trim>
+	</sql>
+
+	<sql id="searchByType">
+		<if test="typeArr != null">
+			<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+				<foreach item='type' collection="typeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString()">
+								title like '%'||#{keyword}||'%'
+							</when>
+							<when test="type == 'W'.toString()">
+								writer like '%'||#{keyword}||'%'
+							</when>
+							<when test="type == 'B'.toString()">
+								bookname like '%'||#{keyword}||'%'
+							</when>
+							<when test="type == 'A'.toString()">
+								authors like '%'||#{keyword}||'%'
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</if>
+	</sql>
+</mapper>

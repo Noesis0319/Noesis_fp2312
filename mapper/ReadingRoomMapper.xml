@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noesis.mapper.ReadingRoomMapper">
+	
+	<insert id="reserve">
+		insert into TBL_READINGROOM (sno, userid, resdate) values (#{sno}, #{userId}, #{resDate})
+	</insert>
+	
+	<select id="getBySno" resultType="com.noesis.domain.ReadingRoomVO">
+		select * from TBL_READINGROOM  where sno=#{sno}
+	</select>
+	
+	<select id="getByDate" resultType="com.noesis.domain.ReadingRoomVO">
+		select * from TBL_READINGROOM  where TRUNC(resdate) = #{resDate}
+	</select>
+	
+	<delete id="resCancel">
+		delete from TBL_READINGROOM where TRUNC(resdate) = #{resDate} and sno=#{sno}
+	</delete>
+	
+</mapper>
