@@ -100,8 +100,8 @@ $(function(){
 		let str = "";
 		$(result).each(function(i, obj){
 			if(obj.image){
-				console.log("obj.image : true");
 				let fileCallPath = encodeURIComponent(obj.uploadpath+ "\\s_"+obj.uuid + "_" + obj.filename);
+				console.log(fileCallPath);
 				str += "<li data-path='" + obj.uploadpath +"'";
 				str += "	data-uuid='"+obj.uuid+"' data-filename='"+ obj.filename +"' data-type='"+obj.image+"'>";
 				str += "	<div>";
@@ -112,7 +112,6 @@ $(function(){
 				str += "	</div>";
 				str += "</li>";
 			}else{
-				console.log("obj.image : false");
 				let fileCallPath = encodeURIComponent(obj.uploadpath+"\\"+ obj.uuid + "_" + obj.filename);
 				str += "<li data-path='"+ obj.uploadpath +"'";
 				str += "	data-uuid='"+ obj.uuid +"' data-filename='" + obj.filename + "' data-type='" + obj.image+ "'>";

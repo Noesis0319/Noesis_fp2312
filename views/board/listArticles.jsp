@@ -34,6 +34,7 @@
 </head>
 <script type="text/javascript">
 $(function(){
+	console.log("start");
 	const menu1 = $(".m1");
 	const menu2 = $(".m2");
 	const menu3 = $(".m3");
@@ -176,10 +177,7 @@ $(function(){
              bt5.css("color", "#ffffff");
              bt6.css("color", "#cc00ff");
         })
-	$(".write_btn").on("click", function(e){
-		e.preventDefault;	
-		self.location = "/board/articleRegister"
-	})
+	
 	$(".get").on("click", function(e){
 		e.preventDefault();
 		let form=$('<form></form>');
@@ -406,18 +404,18 @@ $(function(){
 			<a href="${pageContext.request.contextPath}/board/articleRegister" class="custom-btn btn-14 articleForm-confirm-btn">글쓰기</a>
 		</div>
 		<div class="listArticles-page-wrap">
-				<ul class="pagination">
-					<c:if test="${pageDTO.prev}">
-						<li class="paginate_btn previous"><a href="${pageDTO.startPage-1 }">Prev</a></li>
-					</c:if>
-					<c:forEach var="num" begin="${pageDTO.startPage }" end="${pageDTO.endPage}">
-						<li class="paginate_btn ${pageDTO.criteria.pageNum==num ? 'active_list' : '' }"><a href="${num}">${num}</a></li>
-					</c:forEach>
-					<c:if test="${pageDTO.next }">
-						<li class="paginate_btn next"><a href="${pageDTO.endPage+1 }">Next</a></li>
-					</c:if>
-				</ul>
-			</div>
+			<ul class="pagination">
+				<c:if test="${pageDTO.prev}">
+					<li class="paginate_btn previous"><a href="${pageDTO.startPage-1 }">Prev</a></li>
+				</c:if>
+				<c:forEach var="num" begin="${pageDTO.startPage }" end="${pageDTO.endPage}">
+					<li class="paginate_btn ${pageDTO.criteria.pageNum==num ? 'active_list' : '' }"><a href="${num}">${num}</a></li>
+				</c:forEach>
+				<c:if test="${pageDTO.next }">
+					<li class="paginate_btn next"><a href="${pageDTO.endPage+1 }">Next</a></li>
+				</c:if>
+			</ul>
+		</div>
 		<div id="search" class="searchform" >
 			<form action="/board/" id="searchForm">
 				<div style="display:flex">

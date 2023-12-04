@@ -54,8 +54,6 @@ nav ul li ul li a:hover {
 </style>
 <script>
 	$(function() {
-		let msg = "${msg}";
-		let txt;
 		
 		$('nav li').hover(function() {
 			$('ul', this).stop().slideDown(200);
@@ -63,14 +61,6 @@ nav ul li ul li a:hover {
 			$('ul', this).stop().slideUp(200);
 		});
 		
-		if(msg === ""){
-			return;
-		}
-		
-		if(msg === "logout"){
-			txt = "로그아웃 되셨습니다"
-		}
-		alert(txt);
 	})
 </script>
 <header>
@@ -189,13 +179,13 @@ nav ul li ul li a:hover {
 				<a href="#">참여광장</a>
 				<ul>
 					<li>
-						<a href="#">공모전1</a>
+						<a href="${contextPath}/imgBoard/board">이 책 어때요</a>
 					</li>
 					<li>
-						<a href="#">공모전2</a>
+						<a href="#">독후감</a>
 					</li>
 					<li>
-						<a href="#">공모전3</a>
+						<a href="#">공모전</a>
 					</li>
 					<li>
 						<a href="#">참여교육 </a>

@@ -23,7 +23,6 @@
 <meta charset="UTF-8">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="${contextPath}/resources/js/replyService.js"></script>
-<link href="${contextPath}/resources/css/commonCss.css" rel="stylesheet" type="text/css">
-<link href="${contextPath}/resources/css/imgBoard.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/resources/css/readingRoom.css" rel="stylesheet" type="text/css">
 <link href="${contextPath}/resources/css/includes.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/resources/css/commonCss.css" rel="stylesheet" type="text/css">

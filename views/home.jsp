@@ -336,7 +336,7 @@
 						<br>대출/예약
 					</li>
 					<li style="margin-left:20px;">
-						<a href="#">
+						<a href="${pageContext.request.contextPath}/readingRoom/">
 							<img src="${contextPath}/resources/icon/desk_icon.png" class="common-quick2-menu__icon">
 						</a>
 						<br>열람실 예약
